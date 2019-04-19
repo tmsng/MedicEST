@@ -3,7 +3,7 @@ package tomaest.maquina;
 import java.util.List;
 
 /** 
- * Classe que representa um dos dispensadores da máquina.
+ * Classe representa um dos dispensadores da máquina.
  * Cada dispensador tem um medicamento e vários comprimidos (ou cápsulas)
  * desse medicamento
  */
