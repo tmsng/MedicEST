@@ -4,5 +4,5 @@ package tomaest.maquina;
  *  que se tem de tomar numa dada data.
  */
 public class Toma {
-	int x = 0;
+
 }

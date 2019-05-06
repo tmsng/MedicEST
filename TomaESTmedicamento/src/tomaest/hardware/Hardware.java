@@ -65,6 +65,7 @@ public class Hardware {
 	/** toca o alarme
 	 */
 	public void tocaAlarme() {
+		alarme.setFramePosition( 0 );
         alarme.start();
 	}
 
@@ -90,6 +91,7 @@ public class Hardware {
 	 */
 	public void turnLed( int t, CorLedTampa led ) {
 		janela.tampas[t%nHoriz][t/nHoriz] = janela.coresTampas[ led.ordinal() ];
+		janela.fundo.repaint();
 	}
 
 	/** retorna o número de dispensadores que tem na horizontal
@@ -206,7 +208,6 @@ public class Hardware {
 			}
 
 			setContentPane( setupFundo() );
-			setupTimer();
 			pack();
 		}
 
