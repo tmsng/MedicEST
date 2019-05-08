@@ -14,6 +14,14 @@ public class TomaParcial {
 		this.quant = q;
 	}
 	
+	public Dispensador getDispensador(){
+		return dispensador;
+	}
+	
+	public int getQuant(){
+		return quant;
+	}
+	
 	@Override
 	public String toString() {
 		return "Dispensador[ " + dispensador + "] - " + "quantidade: "+ quant + "\n";

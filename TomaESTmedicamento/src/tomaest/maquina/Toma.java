@@ -1,5 +1,6 @@
 package tomaest.maquina;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +13,7 @@ public class Toma {
 
 	private LocalDateTime quando;
 	private ArrayList<TomaParcial> partes = new ArrayList<TomaParcial>();
-
+	
 	public Toma(LocalDateTime q){
 		this.quando = q;
 	}

@@ -1,6 +1,6 @@
 package tomaest.maquina;
 
-import java.util.List;
+//import java.util.List;
 
 /** 
  * Classe que representa um dos dispensadores da máquina.
@@ -11,7 +11,7 @@ public class Dispensador {
 
 	private String nomeMedicamento;
 	private int quantidadeTotal;
-
+	
 	
 	/** adiciona numa certa quantidade de comprimidos ao dispensador
 	 * @param quant quantidade a adicionar ao dispensador
@@ -37,13 +37,13 @@ public class Dispensador {
 	}
 
 	
-	public void setquantidadeTotal(int quantidadeTotal) {
+	public void setquantidadeTotal(int quantidadeTotal) {		
 		this.quantidadeTotal = quantidadeTotal;
 	}
 
 
 	public int addQuantidade(int quant) {
-		return quantidadeTotal=quantidadeTotal+quant;
+		return quantidadeTotal += quant;
 	}
 
 	

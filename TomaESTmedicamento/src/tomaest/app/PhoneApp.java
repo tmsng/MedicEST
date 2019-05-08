@@ -24,7 +24,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+//CHANGE_START
 import tomaest.maquina.Maquina;
+//CHANGE_END
 
 /** Classe que representa a aplicação de telemóvel. 
  * É a única responsável pela interação com o utilizador.
@@ -47,10 +49,11 @@ public class PhoneApp extends JFrame {
 	private static final Color corTexto = new Color( 250, 250, 250 );
 	private static final Color corCaixa = new Color( 200, 200, 200 );
 
-	//DAVID_START
+	//CHANGE_START
 	private Maquina maq;
 	private int h;
 	private int v;
+	//CHANGE_END
 	
 	/** cria a aplicação indicando qual a máquina com que vai comunicar
 	 * @param maquina máquina que vai ser configurada pela aplicação
@@ -72,19 +75,20 @@ public class PhoneApp extends JFrame {
 		pack();
 		setResizable( false );
 		
+		//CHANGE_START
 		this.h = maq.getDispensadoresHorizontais();
 		this.v = maq.getDispensadoresVerticais();
+		//CHANGE_END
 	}
-	//DAVID_END
 	
-	
+	//CHANGE_START
 	/** apresenta o menu principal da aplicação
 	 */
 	public void menuPrincipal(Maquina maq) {
 		String opcoes[] = {"Programar Toma", "Carregar Dispensador", "Configurar Dispensador", "Sair"};
 		do {
 			int opcao = showMenu( "Menu principal", opcoes );
-			System.out.println( "Menu opcao: " + opcao );
+			//System.out.println( "Menu opcao: " + opcao );
 			switch( opcao ) {
 			case 0: programarToma(maq); break;
 			case 1: carregarDispensador(maq); break;
@@ -93,31 +97,53 @@ public class PhoneApp extends JFrame {
 			}
 		} while( true );
 	}
-
+	//CHANGE_END
+	
+	
+	//CHANGE_START
+	/** Verificar se a String é integer
+	 * @param s String a avaliar
+	 */
+	public boolean verificarStringInt(String s){ // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	    try{
+	        Integer.parseInt(s);
+	        return true;
+	    } catch (NumberFormatException ex){
+	        return false;
+	    }
+	}
+	//CHANGE_END
+	
 	
 	/** programa uma toma: pede a data, o(s) dispensador(es) e
 	 * a quantidade a usar de cada dispensador(es)
 	 */
 	private void programarToma(Maquina maq) {
-		// TODO tem de saber quantos dispensadores colocar -------------------------------------------------------------------------------------------------
-		//DAVID_START
+		// TODO tem de saber quantos dispensadores colocar
+		//CHANGE_START
 		int nHoriz = h;
 		int nVert = v;
-		//DAVID_END
+		//CHANGE_END
 		
 		LocalDateTime quando = escolherData();
+		
 		while( true ) { 
 			int dispNum = escolherDispensador( nHoriz, nVert, false, maq);
 			if( dispNum == -1 )
 				return;
 		
 			// TODO qual o nome do medicamento??
-			// qual o nome do medicamento??
-			String nomeMedicamento = "<MEDICAMENTO>";
+			//CHANGE_START
+			String nomeMedicamento = maq.getMedicamento(dispNum);
+			//CHANGE_END
 			
 			String quantStr = pedirValor( "Quantos " + nomeMedicamento+ "?" );
-			int quant = Integer.parseInt( quantStr );
-
+			
+			//CHANGE_START
+			int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 1; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			//System.out.println(quant);
+			//CHANGE_END
+			
 			// TODO tem de registar a toma
 			
 		}
@@ -127,25 +153,34 @@ public class PhoneApp extends JFrame {
 	/** pede os dados para carregar o dispensador: qual deles e a quantidade a adicionar
 	 */
 	private void carregarDispensador(Maquina maq) {
-		// TODO tem de saber quantos dispensadores colocar ---------------------------------------------------------------------------------------------------
-		//DAVID_START
+		// TODO tem de saber quantos dispensadores colocar
+		//CHANGE_START
 		int nHoriz = h;
 		int nVert = v;
-		//DAVID_END
+		//CHANGE_END
 		
 		int dispNum = escolherDispensador( nHoriz, nVert, false, maq );
 		if( dispNum == -1 )
 			return;
 		
-		// TODO abrir a tampa do dispensador correto ---------------------------------------------------------------------------------------------------------
-		//DAVID_START
+		// TODO abrir a tampa do dispensador correto
+		//CHANGE_START
 		maq.abrirDispensador(dispNum);
-		//DAVID_END
+		//CHANGE_END
 		
 		// TODO qual o nome do medicamento
-		String nomeMedicamento = "<MEDICAMENTO>";
+		//CHANGE_START
+		String nomeMedicamento = maq.getMedicamento(dispNum);
+		//CHANGE_END
+		
 		String quantStr = pedirValor( "Quantos " + nomeMedicamento+ "?" );
-		int quant = Integer.parseInt( quantStr );
+		
+		//CHANGE_START
+		int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 0; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//System.out.println(quant);
+		
+		maq.fecharDispensador(dispNum); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//CHANGE_END
 		
 		// TODO tem de carregar o dispensador
 		
@@ -156,26 +191,33 @@ public class PhoneApp extends JFrame {
 	 * qual o dispensador, qual o nome do medicamento e a quantidade de comprimidos
 	 */
 	private void configurarDispensador(Maquina maq) {
-		// TODO tem de saber quantos dispensadores colocar ---------------------------------------------------------------------------------------------------
-		//DAVID_START
+		// TODO tem de saber quantos dispensadores colocar
+		//CHANGE_START
 		int nHoriz = h;
 		int nVert = v;
-		//DAVID_END
+		//CHANGE_END
 		
 		int disp = escolherDispensador( nHoriz, nVert, true, maq );
 		if( disp == -1 )
 			return;
 		
-		// TODO abrir a tampa do dispensador correto ---------------------------------------------------------------------------------------------------------
-		//DAVID_START
+		// TODO abrir a tampa do dispensador correto
+		//CHANGE_START
 		maq.abrirDispensador(disp);
-		//DAVID_END
+		//CHANGE_END
 		
 		String medicamento = pedirValor( "Qual o medicamento?" );
 		String quantStr = pedirValor( "Quantos " + medicamento+ "?" );
-		int quant = Integer.parseInt( quantStr );
+		
+		//CHANGE_START
+		int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 1; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//System.out.println(quant);
+		
+		maq.fecharDispensador(disp); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//CHANGE_END
 		
 		// TODO tem de configurar o dispensador
+		
 	}
 	
 	
@@ -204,15 +246,18 @@ public class PhoneApp extends JFrame {
 				bt.setBackground( corCaixa );
 				principal.add( bt );
 				
-				//DAVID_START
-				System.out.println("Disp > " + btNum);
-				//DAVID_END
+				//CHANGE_START
+				//System.out.println("Disp > " + btNum);
+				//CHANGE_END
 				
-				// TODO tem de saber se o dispensador está usado ou livre ----------------------------------------------------------------------------------
+				// TODO tem de saber se o dispensador está usado ou livre <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				//CHANGE_START
 				boolean estaLivre = m.estaLivre(btNum);
+				//CHANGE_END
 				
+				//CHANGE_START
 				if( !estaLivre ) {
-					// TODO qual o nome do medicamento?? ---------------------------------------------------------------------------------------------------
+					// TODO qual o nome do medicamento??
 					String medicamento = m.getMedicamento(btNum);
 					//System.out.println("Texto: " + medicamento);
 					
@@ -221,7 +266,7 @@ public class PhoneApp extends JFrame {
 					//System.out.println("Quant: " + quant);
 					bt.setToolTipText( medicamento + "(" + quant + ")" );
 				}
-				
+				//CHANGE_END
 				
 				// TODO tem de saber se o dispensador está usado ou livre <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 				if( estaLivre == livre ) {
